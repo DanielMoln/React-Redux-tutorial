@@ -1,10 +1,5 @@
 import {RootReducerState} from "../../root-reducer";
-import createAction from "../reducer.utils";
-
-export interface ReducerActionInterface {
-    type: string;
-    payload: any;
-}
+import createAction, {ReducerActionInterface} from "../reducer.utils";
 
 export interface UserModel {
     id: number;
@@ -19,15 +14,26 @@ const INITIAL_STATE: UserModel = {
     uniqueIdentifier: "",
 }
 
+/* action types */
+export const UserActionTypes = {
+    SET_USER: "SET_USER",
+    SET_NAME: "SET_NAME"
+}
+
 /* reducer */
 export const userReducer = (state: UserModel = INITIAL_STATE, action: ReducerActionInterface) => {
     const {type, payload} = action;
 
     switch (type) {
-        case "SET_USER":
+        case UserActionTypes.SET_USER:
             return {
                 ...state,
                 ...payload
+            };
+        case UserActionTypes.SET_NAME:
+            return {
+                ...state,
+                name: payload
             };
 
         default:
@@ -39,6 +45,11 @@ export const userReducer = (state: UserModel = INITIAL_STATE, action: ReducerAct
 export const getCurrentUser = (state: RootReducerState) => state.user;
 
 /* Actions */
+export const setName = (name: string) => createAction({
+    type: "SET_NAME",
+    payload: name
+})
+
 export const setUser = (user: UserModel) => createAction({
     type: "SET_USER",
     payload: user
